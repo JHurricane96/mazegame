@@ -5,6 +5,10 @@ config = {
 	"playerSize": 20
 };
 
+confBattle = {
+	"playerSize": 20
+};
+
 viewport = {
 	"width": 1300,
 	"height": 650,

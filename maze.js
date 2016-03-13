@@ -102,6 +102,9 @@ Maze.prototype.generate = function() {
 		}
 	}
 
+	function createRooms() {
+	}
+
 	dfs(1, 1);
 	this.grid.forEach(function (row) {
 		var s = "";

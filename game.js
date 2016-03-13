@@ -4,6 +4,8 @@ var gameLoop = {};
 var player = new Player();
 var maze = new Maze();
 var prevTime;
+var gameMode = "maze";
+var battleChance = 0;
 
 function controlPlayerKeyDown(event) {
 	//event.preventDefault();
@@ -70,7 +72,14 @@ function initialize() {
 	addEvents();
 }
 
-function update(t) {
+function updateMazeMode(t) {
+	if (Math.random() * 1000 < battleChance) {
+		console.log("battle!");
+		battleChance = 0;
+		return "battle";
+	}
+	else
+		battleChance += t/10000;
 	t /= 16;
 	var playerWallCollisions = playerWallCollide();
 	if (playerWallCollisions.length > 0) {
@@ -118,9 +127,10 @@ function update(t) {
 	else if (player.pos.y - viewport.pos.y < viewport.height / 3) {
 		viewport.pos.y = Math.max(player.pos.y - viewport.height / 3, 0);
 	}
+	return "";
 }
 
-function render() {
+function renderMazeMode() {
 	context.clearRect(0, 0, viewport.width, viewport.height);
 	maze.render(viewport, context);
 	player.render(viewport, context);
@@ -128,9 +138,24 @@ function render() {
 
 function mainLoop(curTime) {
 	t = curTime - prevTime;
-	update(t);
+	var mode;
+	if (gameMode == "maze") {
+		mode = updateMazeMode(t);
+		renderMazeMode();
+		if (mode == "battle") {
+			initBattleMode();
+			gameMode = mode;
+		}
+	}
+	else {
+		mode = updateBattleMode(t);
+		renderBattleMode();
+		if (mode == "maze") {
+			addEvents();
+			gameMode = mode;
+		}
+	}
 	prevTime = curTime;
-	render();
 	window.requestAnimationFrame(mainLoop);
 }
 
@@ -140,5 +165,3 @@ function main() {
 	prevTime = 0
 	gameLoop = window.requestAnimationFrame(mainLoop);
 }
-
-main();
