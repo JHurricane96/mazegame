@@ -3,6 +3,8 @@ var context = canvas.getContext("2d");
 var gameLoop = {};
 var player = new Player();
 var maze = new Maze();
+var key = new Key();
+var exit = new Exit();
 var prevTime;
 var gameMode = "maze";
 var battleChance = 0;
@@ -44,14 +46,14 @@ function playerWallCollide() {
 	var startCell = maze.cellAt(player.pos.x - player.size, player.pos.y - player.size);
 	var endCell = maze.cellAt(player.pos.x + player.size, player.pos.y + player.size);
 	var collidesWith = [];
-	if (startCell.x < 0)
-		startCell.x = 0;
-	if (startCell.x >= maze.rows)
-		startCell.x = maze.rows - 1;
-	if (startCell.y < 0)
-		startCell.y = 0;
-	if (startCell.y >= maze.cols)
-		startCell.y = maze.cols - 1;
+	startCell.x = Math.max(0, startCell.x);
+	startCell.x = Math.min(maze.rows - 1, startCell.x);
+	startCell.y = Math.max(0, startCell.y);
+	startCell.y = Math.min(maze.cols - 1, startCell.y);
+	endCell.x = Math.max(0, endCell.x);
+	endCell.x = Math.min(maze.rows - 1, endCell.x);
+	endCell.y = Math.max(0, endCell.y);
+	endCell.y = Math.min(maze.cols - 1, endCell.y);
 	for (i = startCell.x; i <= endCell.x; ++i) {
 		for (j = startCell.y; j <= endCell.y; ++j) {
 			if (maze.grid[i][j].color() == "black")
@@ -68,18 +70,30 @@ function addEvents() {
 
 function initialize() {
 	maze.init();
-	maze.generate();
+	maze.generate(key, exit);
 	addEvents();
 }
 
+function reInitialize() {
+	key.pickedUp = false;
+	player = new Player();
+	maze.init();
+	maze.generate(key, exit);
+}
+
 function updateMazeMode(t) {
+	if (Math.abs(player.pos.x - key.pos.x - key.size / 2) <= player.size + key.size / 2 && Math.abs(player.pos.y - key.pos.y - key.size / 2) <= player.size + key.size / 2)
+		key.pickedUp = true;
+	if (key.pickedUp && Math.abs(player.pos.x - exit.pos.x - exit.size / 2) <= player.size + exit.size / 2 && Math.abs(player.pos.y - exit.pos.y - exit.size / 2) <= player.size + exit.size / 2) {
+		reInitialize();
+	}
 	if (Math.random() * 1000 < battleChance) {
 		console.log("battle!");
 		battleChance = 0;
 		return "battle";
 	}
 	else
-		battleChance += t/10000;
+		battleChance += t/8000;
 	t /= 16;
 	var playerWallCollisions = playerWallCollide();
 	if (playerWallCollisions.length > 0) {
@@ -134,6 +148,8 @@ function renderMazeMode() {
 	context.clearRect(0, 0, viewport.width, viewport.height);
 	maze.render(viewport, context);
 	player.render(viewport, context);
+	key.render(viewport, context);
+	exit.render(viewport, context);
 }
 
 function mainLoop(curTime) {

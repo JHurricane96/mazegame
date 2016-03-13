@@ -1,5 +1,5 @@
 config = {
-	"mazeSize": 31,
+	"mazeSize": 7,
 	"mazeBlockSize": 200,
 	"mazeWallSize": 1,
 	"playerSize": 20

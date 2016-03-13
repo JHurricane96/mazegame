@@ -59,7 +59,7 @@ Maze.prototype.cellAt = function(x, y) {
 	return new Vector(y, x);
 }
 
-Maze.prototype.generate = function() {
+Maze.prototype.generate = function(key, exit) {
 	var visited = [];
 	var i, j;
 	for (i = 0; i < this.rows; ++i) {
@@ -112,7 +112,16 @@ Maze.prototype.generate = function() {
 			s += col.color()[0]
 		});
 		//console.log(s);
-	})
+	});
+
+	key.pos = new Vector(
+		(Math.floor(maze.rows / 2) * (maze.blockSize + maze.wallSize) + maze.wallSize) / 2 - (key.size / 2),
+		(Math.floor(maze.rows / 2) * (maze.blockSize + maze.wallSize) + maze.wallSize) / 2 - (key.size / 2)
+	);
+	exit.pos = new Vector(
+		Math.floor(maze.rows / 2) * (maze.blockSize + maze.wallSize) - (maze.blockSize / 2) - (exit.size / 2),
+		Math.floor(maze.rows / 2) * (maze.blockSize + maze.wallSize) - (maze.blockSize / 2) - (exit.size / 2)
+	);
 }
 
 Maze.prototype.render = function(viewport, context) {
@@ -125,4 +134,27 @@ Maze.prototype.render = function(viewport, context) {
 			context.fillRect(cell.pos.x - viewport.pos.x, cell.pos.y - viewport.pos.y, cell.width, cell.height);
 		}
 	}
+}
+
+function Key() {
+	this.pickedUp = false;
+	this.pos = new Vector(0, 0);
+	this.size = config.mazeBlockSize / 2;
+}
+
+Key.prototype.render = function (viewport, context) {
+	if (this.pickedUp)
+		return;
+	context.fillStyle = "yellow";
+	context.fillRect(this.pos.x - viewport.pos.x, this.pos.y - viewport.pos.y, this.size, this.size);
+}
+
+function Exit() {
+	this.pos = new Vector(0, 0);
+	this.size = config.mazeBlockSize / 2;
+}
+
+Exit.prototype.render = function(viewport, context) {
+	context.fillStyle = "gray";
+	context.fillRect(this.pos.x - viewport.pos.x, this.pos.y - viewport.pos.y, this.size, this.size);
 }
