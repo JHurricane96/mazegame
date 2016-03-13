@@ -11,6 +11,8 @@ var battleChance = 0;
 
 function controlPlayerKeyDown(event) {
 	//event.preventDefault();
+	if (event.keyCode >= 37 && event.keyCode <= 40)
+		console.log(event, "anything");
 	if (event.keyCode == 37) { // Left
 		player.accelaration.x = -player.accMag;
 	}
@@ -27,6 +29,9 @@ function controlPlayerKeyDown(event) {
 }
 
 function controlPlayerKeyUp(event) {
+	event.preventDefault();
+	if (event.keyCode >= 37 && event.keyCode <= 40)
+		console.log(event, "anything2");
 	if (event.keyCode == 37) { // Left
 		player.accelaration.x = 0;
 	}
