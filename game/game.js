@@ -106,16 +106,16 @@ function updateMazeMode(t) {
 			if (cell.type == "thin wall horizontal") {
 				player.velocity.y = -player.velocity.y;
 				if (cell.pos.y > player.pos.y)
-					player.pos.y = cell.pos.y - player.size - 1;
+					player.pos.y = cell.pos.y - player.size - maze.wallSize - 1;
 				else
-					player.pos.y = cell.pos.y + player.size + 1;
+					player.pos.y = cell.pos.y + player.size + maze.wallSize + 1;
 			}
 			else if (cell.type == "thin wall vertical") {
 				player.velocity.x = -player.velocity.x;
 				if (cell.pos.x > player.pos.x)
-					player.pos.x = cell.pos.x - player.size - 1;
+					player.pos.x = cell.pos.x - player.size - maze.wallSize - 1;
 				else
-					player.pos.x = cell.pos.x + player.size + 1;
+					player.pos.x = cell.pos.x + player.size + maze.wallSize + 1;
 			}
 		});
 	} 

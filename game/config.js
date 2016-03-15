@@ -1,7 +1,7 @@
 config = {
 	"mazeSize": 23,
 	"mazeBlockSize": 200,
-	"mazeWallSize": 1,
+	"mazeWallSize": 10,
 	"playerSize": 20
 };
 
@@ -10,7 +10,7 @@ confBattle = {
 };
 
 viewport = {
-	"width": 1300,
-	"height": 650,
+	"width": 1340,
+	"height": 740,
 	"pos": new Vector(0, 0)
 };
