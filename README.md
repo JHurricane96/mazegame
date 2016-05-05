@@ -13,7 +13,7 @@ Installation:
 
 Demo:
 ====
-[![Demo Video](http://img.youtube.com/vi/vgxbeYdVppw/3.jpg)](http://www.youtube.com/watch?v=vgxbeYdVppw)
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=vgxbeYdVppw" target="_blank"><img src="http://img.youtube.com/vi/vgxbeYdVppw/3.jpg" alt="Demo Video Link" width="240" height="180" border="10" /></a>
 
 Working:
 ======
