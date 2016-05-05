@@ -11,6 +11,10 @@ Installation:
 
 *NOTE: The code as-is runs only on Windows. For making it run on other systems, one will have to change the address of the serial port to which the board is connected (/server/server.js)*
 
+Demo:
+====
+[![Demo Video](http://img.youtube.com/vi/vgxbeYdVppw/03.jpg)](http://www.youtube.com/watch?v=vgxbeYdVppw)
+
 Working:
 ======
 
