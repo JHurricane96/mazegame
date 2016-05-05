@@ -13,7 +13,7 @@ Installation:
 
 Demo:
 ====
-[![Demo Video](http://img.youtube.com/vi/vgxbeYdVppw/03.jpg)](http://www.youtube.com/watch?v=vgxbeYdVppw)
+[![Demo Video](http://img.youtube.com/vi/vgxbeYdVppw/3.jpg)](http://www.youtube.com/watch?v=vgxbeYdVppw)
 
 Working:
 ======
