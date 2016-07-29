@@ -60,7 +60,6 @@ Maze.prototype.cellAt = function(x, y) {
 }
 
 Maze.prototype.generate = function(key, exit) {
-	console.log(maze);
 	var visited = [];
 	var i, j;
 	for (i = 0; i < this.rows; ++i) {
