@@ -95,7 +95,7 @@ function updateMazeMode(t) {
 	if (Math.random() * 1000 < battleChance) {
 		console.log("battle!");
 		battleChance = 0;
-		return "battle";
+		//return "battle";
 	}
 	else
 		battleChance += t/8000;
