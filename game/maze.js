@@ -60,6 +60,7 @@ Maze.prototype.cellAt = function(x, y) {
 }
 
 Maze.prototype.generate = function(key, exit) {
+	console.log(maze);
 	var visited = [];
 	var i, j;
 	for (i = 0; i < this.rows; ++i) {
@@ -68,10 +69,9 @@ Maze.prototype.generate = function(key, exit) {
 			visited[i][j] = false;
 	}
 
-	var that = this;
 	visited[1][1] = true;
 
-	function dfs(i, j, grid) {
+	function dfs(i, j, mazeObj) {
 		var children = [
 			new Vector(i + 2, j),
 			new Vector(i - 2, j),
@@ -88,39 +88,27 @@ Maze.prototype.generate = function(key, exit) {
 		var k = Math.floor(Math.random() * 4);
 		for (counter = 0; counter < 4; ++counter, k = (k + 1) % 4) {
 			var child = children[k];
-			if (!(child.x >= that.rows - 1 || child.x <= 0 || child.y >= that.cols - 1 || child.y <= 0) && visited[child.x][child.y] === false) {
+			if (!(child.x >= mazeObj.rows - 1 || child.x <= 0 || child.y >= mazeObj.cols - 1 || child.y <= 0) && visited[child.x][child.y] === false) {
 				visited[child.x][child.y] = true;
-				//that.grid[i][j] = 0;
-				//that.grid[child.x][child.y] = 0;
-				var adjWall = that.grid[childrenWalls[k].x][childrenWalls[k].y];
+				var adjWall = mazeObj.grid[childrenWalls[k].x][childrenWalls[k].y];
 				if (adjWall.type == "thin wall horizontal")
-					that.grid[childrenWalls[k].x][childrenWalls[k].y] = new Cell(adjWall.x, adjWall.y, that.blockSize, that.wallSize, "thin free horizontal");
+					mazeObj.grid[childrenWalls[k].x][childrenWalls[k].y] = new Cell(adjWall.x, adjWall.y, mazeObj.blockSize, mazeObj.wallSize, "thin free horizontal");
 				else
-					that.grid[childrenWalls[k].x][childrenWalls[k].y] = new Cell(adjWall.x, adjWall.y, that.wallSize, that.blockSize, "thin free vertical");
-				dfs(child.x, child.y, grid);
+					mazeObj.grid[childrenWalls[k].x][childrenWalls[k].y] = new Cell(adjWall.x, adjWall.y, mazeObj.wallSize, mazeObj.blockSize, "thin free vertical");
+				dfs(child.x, child.y, mazeObj);
 			}
 		}
 	}
 
-	function createRooms() {
-	}
-
-	dfs(1, 1);
-	this.grid.forEach(function (row) {
-		var s = "";
-		row.forEach(function (col) {
-			s += col.color()[0]
-		});
-		//console.log(s);
-	});
+	dfs(1, 1, this);
 
 	key.pos = new Vector(
-		(Math.floor(maze.rows / 2) * (maze.blockSize + maze.wallSize) + maze.wallSize) / 2 - (key.size / 2),
-		(Math.floor(maze.rows / 2) * (maze.blockSize + maze.wallSize) + maze.wallSize) / 2 - (key.size / 2)
+		(Math.floor(this.rows / 2) * (this.blockSize + this.wallSize) + this.wallSize) / 2 - (key.size / 2),
+		(Math.floor(this.rows / 2) * (this.blockSize + this.wallSize) + this.wallSize) / 2 - (key.size / 2)
 	);
 	exit.pos = new Vector(
-		Math.floor(maze.rows / 2) * (maze.blockSize + maze.wallSize) - (maze.blockSize / 2) - (exit.size / 2),
-		Math.floor(maze.rows / 2) * (maze.blockSize + maze.wallSize) - (maze.blockSize / 2) - (exit.size / 2)
+		Math.floor(this.rows / 2) * (this.blockSize + this.wallSize) - (this.blockSize / 2) - (exit.size / 2),
+		Math.floor(this.rows / 2) * (this.blockSize + this.wallSize) - (this.blockSize / 2) - (exit.size / 2)
 	);
 }
 
